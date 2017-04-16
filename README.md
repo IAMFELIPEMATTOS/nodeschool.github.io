@@ -10,16 +10,58 @@ Please fork it and send us improvements! Read our [CONTRIBUTING.md](CONTRIBUTING
 
 We ask that you make pull requests because changes to this repository will get deployed onto the live production site immediately and it's best if you get feedback on your pull request first before it goes live.
 
-## Running the app locally
+## Running the entire app locally
 
-This is a static site, simply open `index.html` or use your favorite static file server to run local server.
-
-You can also use the included development static server by running the following commands:
+This is a static site with a build step, simply run `npm start`:
 
 ```
 npm install
 npm start
 ```
+
+## Installing and running individual nodeschool workshop packages
+
+Please refer to the [nodeschool site](http://nodeschool.io/#workshoppers) for detailed instructions. In short, there are two ways to install the workshop modules :
+
+- **Globally** (easiest)
+
+	Depending on the npm version, `npm packages` get installed in different routes. To have access to them globally. Do 
+	
+	`npm install -global package_name` or 	`npm install -g package_name`
+	
+	If you get a  `permission denied` **error**. Run the previous command with `sudo`.
+
+	`sudo npm install -g package_name`
+
+	Now just run it by simply calling it. **For example :**
+
+	`npm install -g javascripting` **(installs it)**
+
+	![install_module](/images/readme-images/install_module.png?raw=true)
+
+
+	`javascripting` **(runs it)**
+
+	![run_module](/images/readme-images/run_module.png?raw=true)
+`
+
+- **Custom directory** (a bit more configuration)
+
+If you would like to keep all the node_school workshop packages inside a custom directory while you work through them. **Using our previous example :**
+
+```
+~ mkdir -p node_school
+cd node_school
+npm install javascripting 
+```
+
+From within the `node_school` directory now run `node_modules/learnyounode/bin/javascripting` to start it. 
+
+This is because you need to run the executable from within the directory itself since it's not available globally in your `$PATH`
+
+Please refer to this [discussion](https://github.com/nodeschool/discussions/issues/1869) for more info.
+
+
 
 ## Stickers, Badges and whatnots
 
@@ -40,19 +82,19 @@ This will prompt you to enter a language code and will generate your language fi
 
 When picking your language code, please use the correct code from the first column of this spreadsheet: http://en.wikiversity.org/wiki/ISO_639-1_language_matrix
 
-The way translations are implemented is using 100% client-side JavaScript. When the page is loaded the users browser locale is detected (using [browser-locale](http://npmjs.org/browser-locale)) and a XHR request is made to the `languages` folder to try and fetch a JSON translation file for that locale. First we check for the full 5 character locale file (e.g. `en-us`) and if that doesn't exist we fallback to the 2 character version (`en`) and if that doesn't exist we just do nothing and show the default English version.
+The way translations are implemented is building static pages using Codeship (see `./scripts` for details).
 
 Translation files are a mapping of translations IDs to the translated strings. There is a separate file called `languages/selectors.json` which maps CSS selectors in markup to the translation IDs.
 
 The good things about this approach:
 
+- Every language is indexed by search engines.
 - The site remains a static site. This means that contributing to the site is really easy as the entire site is just flat HTML, CSS, JS and JSON files
-- When PRs get merged they are immediately deployed live to GitHub pages. This makes maintenance really nice as there is no manual deploy step.
+- When PRs get merged they are almost immediately deployed live to GitHub pages. This makes maintenance really nice as there is no manual deploy step.
 
 The drawbacks of this approach:
 
-- Only the English (default) version is indexed by search engines
-- The English version briefly appears on page loads before the translated version is swapped in
+- Default branch is `source` as we can't use `master` anymore.
 
 ### Update Translations
 
